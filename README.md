@@ -1,6 +1,5 @@
 # Donga
 
-
 ## How to setup
 
 Install MinGW prebuild:
@@ -8,6 +7,17 @@ Install MinGW prebuild:
     * winlibs-x86_64-posix-seh-gcc-14.1.0-llvm-18.1.8-mingw-w64ucrt-12.0.0-r3.7z Just unzip to C:\mingw64\
     * g++ --version
     * cmake --version
+
+SDL2
+    * https://github.com/libsdl-org/SDL/releases
+    * Need to download MinGW compatible libraries -> SDL2-devel-2.30.6-mingw.zip
+    * Unzip it.
+    * Inside of i686-w64-mingw32/x86_64-w64-mingw32 are the include, lib, and bin folders which contain everything to compile.
+    * Dev tested: x86_64-w64-mingw32 which contains the 64bit library for a 64bit operating system.
+    * CMakeList.txt is updated to find include and lib folders.
+    * Use following command for direct compilation:
+        -> g++ main.cpp -I ../include/SDL2 -L ../libs/SDL2 -w -Wl,-subsystem,windows -lmingw32 -lSDL2main -lSDL2 -o main
+
 
 ## Add your files
 
