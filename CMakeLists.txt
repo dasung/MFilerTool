@@ -15,7 +15,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../bin")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 # Define the source files
-set(SOURCES src/main.cpp)
+set(SOURCES common/dongaLogger.cpp src/main.cpp)
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -33,6 +33,9 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
 
 # set linker flag only to a specific target (only if really needed)
 # set_target_properties(Donga PROPERTIES LINKER_FLAGS "-Wl,-subsystem,windows")
+
+# Define the precomipiled header file
+target_precompile_headers(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/common/pch.H")
 
 # link against MinGW runtime and SDL2 libraries
 target_link_libraries(${PROJECT_NAME} mingw32 ${SDL2_LIBRARIES})

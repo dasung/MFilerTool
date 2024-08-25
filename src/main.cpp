@@ -51,6 +51,121 @@ int main( int argc, char* args[] )
 
 	//Quit SDL subsystems
 	SDL_Quit();
+}
 
+int main( int argc, char* argv[] )
+{
+	DLogDebug("This is product capability to dongaLogger: INT(%d), STRING(%s) DOUBLE(%f)", 1, "dongaLog.txt", 3.55);
+
+	// Redirect stdout to a file
+    freopen("stdout.txt", "w", stdout);
+
+    // Check for --no-window argument
+    bool noWindow = false;
+    for (int i = 1; i < argc; ++i)
+	{
+        if (std::string(argv[i]) == "--no-window")
+		{
+            noWindow = true;
+            break;
+        }
+    }
+
+    // Optionally suppress the window
+    if (noWindow)
+	{
+		printf( "Runing the game on supress mode!\n" );
+        SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+    }
+
+	//Start up SDL and create window
+	if( !init(noWindow) )
+	{
+		printf( "Failed to initialize!\n" );
+	}
+	else
+	{
+		printf( "Game initialized!\n" );
+		//Load media
+		if( !loadMedia() )
+		{
+			printf( "Failed to load media!\n" );
+		}
+		else
+		{
+			printf( "Game media loaded!\n" );
+			//Main loop flag
+			bool quit = false;
+
+			//Event handler
+			SDL_Event e;
+
+			//Set default current surface
+			gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_DEFAULT ];
+
+			// Main-loop for application
+			while( !quit )
+			{
+				// Event-loop: get most recent event from the event queue
+				while( SDL_PollEvent( &e ) != 0 )
+				{
+					//User requests quit
+					if( e.type == SDL_QUIT )
+					{
+						printf( "Game terminated!\n" );
+						quit = true;
+					}
+					//User presses a key
+					else if( e.type == SDL_KEYDOWN )
+					{
+						//Select surfaces based on key press
+						switch( e.key.keysym.sym )
+						{
+							case SDLK_UP:
+							gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_UP ];
+							break;
+
+							case SDLK_DOWN:
+							gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_DOWN ];
+							break;
+
+							case SDLK_LEFT:
+							gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_LEFT ];
+							break;
+
+							case SDLK_RIGHT:
+							gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_RIGHT ];
+							break;
+
+							default:
+							gCurrentSurface = gKeyPressSurfaces[ KEY_PRESS_SURFACE_DEFAULT ];
+							break;
+						}
+					}
+				}
+
+				//Apply the image
+				SDL_BlitSurface( gCurrentSurface, NULL, gScreenSurface, NULL );
+			
+				//Update the surface
+				SDL_UpdateWindowSurface( gWindow );
+
+				// If --no-window is set, terminate the application after some condition
+				if (noWindow)
+				{
+					printf( "Game delay 5s!\n" );
+					SDL_Delay(5000);  // Short delay to simulate work
+					quit = true;
+				}
+			}
+		}
+	}
+
+	//Free resources and close SDL
+	close();
+
+	// Close the file
+	printf( "Game exit!\n" );
+    fclose(stdout);
 	return 0;
 }
