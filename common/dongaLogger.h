@@ -43,7 +43,7 @@ void _dongaLogDebug(const char *zFormat, ...);
 // wrapper for _dongaLogDebug
 #define DLogDebug(...) { if(LOG_ENABLED) { _dongaLogDebug(__VA_ARGS__); } }
 
-// to return the current function name
+// to return the current function name only
 #define __SEE_FUNCTION__ __FUNCTION__
 
 #endif // DONGA_LOGGER_H

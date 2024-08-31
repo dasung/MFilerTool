@@ -14,13 +14,26 @@ int main( int argc, char* args[] )
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
 	
-	//The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
+//The surface contained by the window
+SDL_Surface* gScreenSurface = NULL;
+
+//The images that correspond to a keypress
+SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
+
+//Current displayed image
+SDL_Surface* gCurrentSurface = NULL;
+
+bool init(bool isWindowHide)
+{
+	DLogDebug(__PRETTY_FUNCTION__);
+	//Initialization flag
+	bool success = true;
 
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
 	{
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+		DLogDebug("SDL could not initialize! SDL_Error: %s", SDL_GetError());
+		success = false;
 	}
 	else
 	{
@@ -28,22 +41,50 @@ int main( int argc, char* args[] )
 		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
-			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+			DLogDebug("Window could not be created! SDL_Error: %s", SDL_GetError());
+			success = false;
 		}
 		else
 		{
 			//Get window surface
 			screenSurface = SDL_GetWindowSurface( window );
 
-			//Fill the surface white
-			SDL_FillRect( screenSurface, NULL, SDL_MapRGB( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-			
-			//Update the surface
-			SDL_UpdateWindowSurface( window );
-            
-            //Hack to get window to stay up
-            SDL_Event e; bool quit = false; while( quit == false ){ while( SDL_PollEvent( &e ) ){ if( e.type == SDL_QUIT ) quit = true; } }
+	return success;
+}
+
+
+bool loadMedia()
+{
+	DLogDebug(__PRETTY_FUNCTION__);
+	//Loading success flag
+	bool success = true;
+
+	for( int i = 0; i < KEY_PRESS_SURFACE_TOTAL; ++i )
+	{
+		SDL_Surface* loadedSurface = SDL_LoadBMP( m_imgPath[i].c_str() );
+		if( loadedSurface == NULL )
+		{
+			DLogDebug( "Unable to load image %s! SDL Error: %s", m_imgPath[i].c_str(), SDL_GetError());
+			success = false;
+			break;
 		}
+
+		gKeyPressSurfaces[ i ] = loadedSurface;
+		DLogDebug("Image loaded sucessfully... %s", m_imgPath[i].c_str());
+	}
+
+	return success;
+}
+
+
+void close()
+{
+	DLogDebug(__PRETTY_FUNCTION__);
+	//Deallocate surfaces
+	for( int i = 0; i < KEY_PRESS_SURFACE_TOTAL; ++i )
+	{
+		SDL_FreeSurface( gKeyPressSurfaces[ i ] );
+		gKeyPressSurfaces[ i ] = NULL;
 	}
 
 	//Destroy window
@@ -55,10 +96,7 @@ int main( int argc, char* args[] )
 
 int main( int argc, char* argv[] )
 {
-	DLogDebug("This is product capability to dongaLogger: INT(%d), STRING(%s) DOUBLE(%f)", 1, "dongaLog.txt", 3.55);
-
-	// Redirect stdout to a file
-    freopen("stdout.txt", "w", stdout);
+	DLogDebug("This is product capability to dongaLogger: INT(%d), STRING(%s) DOUBLE(%f)", 1, __PRETTY_FUNCTION__, 3.55);
 
     // Check for --no-window argument
     bool noWindow = false;
@@ -74,26 +112,26 @@ int main( int argc, char* argv[] )
     // Optionally suppress the window
     if (noWindow)
 	{
-		printf( "Runing the game on supress mode!\n" );
+		DLogDebug("Runing the game on supress mode!");
         SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
     }
 
 	//Start up SDL and create window
 	if( !init(noWindow) )
 	{
-		printf( "Failed to initialize!\n" );
+		DLogDebug("Failed to initialize!");
 	}
 	else
 	{
-		printf( "Game initialized!\n" );
+		DLogDebug("Game initialized!");
 		//Load media
 		if( !loadMedia() )
 		{
-			printf( "Failed to load media!\n" );
+			DLogDebug("Failed to load media!" );
 		}
 		else
 		{
-			printf( "Game media loaded!\n" );
+			DLogDebug("Game media loaded!");
 			//Main loop flag
 			bool quit = false;
 
@@ -112,7 +150,7 @@ int main( int argc, char* argv[] )
 					//User requests quit
 					if( e.type == SDL_QUIT )
 					{
-						printf( "Game terminated!\n" );
+						DLogDebug("Game terminated!");
 						quit = true;
 					}
 					//User presses a key
@@ -153,7 +191,7 @@ int main( int argc, char* argv[] )
 				// If --no-window is set, terminate the application after some condition
 				if (noWindow)
 				{
-					printf( "Game delay 5s!\n" );
+					DLogDebug("Game delay 5s!");
 					SDL_Delay(5000);  // Short delay to simulate work
 					quit = true;
 				}
@@ -165,7 +203,7 @@ int main( int argc, char* argv[] )
 	close();
 
 	// Close the file
-	printf( "Game exit!\n" );
+	DLogDebug("Game exit!");
     fclose(stdout);
 	return 0;
 }
