@@ -3,7 +3,7 @@
 
 int main( int argc, char* argv[] )
 {
-	DLogDebug(__PRETTY_FUNCTION__);
+	LogDebug(__PRETTY_FUNCTION__);
 
     // Check for --no-window argument
     bool noWindow = false;
@@ -19,7 +19,7 @@ int main( int argc, char* argv[] )
     // option suppress gui window
     if (noWindow)
 	{
-		DLogDebug("runing in the supress mode!");
+		LogDebug("runing in the supress mode!");
     }
 
     fclose(stdout);
