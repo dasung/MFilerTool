@@ -20,6 +20,5 @@ echo "runing Donga in silent mode..."
 ./Donga.exe --no-window
 #./Donga.exe
 
-
 cd ..
 echo "done!"

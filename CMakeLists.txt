@@ -11,31 +11,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)   # Enforce the standard
 # Specify output directory for executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../bin")
 
-# Add the 'cmake' directory to the CMake module search path (for FindSDL2.cmake)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
-
 # Define the source files
 set(SOURCES common/dongaLogger.cpp src/main.cpp)
 
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# locate the SDL2 library and its components (SDL2.h, libSDL2.a, libSDL2main.a, SDL2_INCLUDE_DIRS, SDL2_LIBRARIES, etc.) 
-find_package(SDL2 REQUIRED)
-
-message(STATUS "SDL2_INCLUDE_DIRS: ${SDL2_INCLUDE_DIRS}")
-message(STATUS "SDL2_LIBRARIES: ${SDL2_LIBRARIES}")
-
-include_directories(${SDL2_INCLUDE_DIRS})
-
 # apply the linker flag globally to all executables 
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-subsystem,windows")
 
-# set linker flag only to a specific target (only if really needed)
-# set_target_properties(Donga PROPERTIES LINKER_FLAGS "-Wl,-subsystem,windows")
-
 # Define the precomipiled header file
 target_precompile_headers(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/common/pch.H")
-
-# link against MinGW runtime and SDL2 libraries
-target_link_libraries(${PROJECT_NAME} mingw32 ${SDL2_LIBRARIES})
