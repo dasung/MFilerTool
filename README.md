@@ -17,6 +17,8 @@ MFilerTool
 |
 ├── test
 │   └── <contains test artifacts>
+├── docs
+│   └── design.pdf -> info about thread structure
 |
 ├── Makefile
 ├── README.md
