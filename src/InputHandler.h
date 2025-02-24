@@ -20,12 +20,13 @@ struct DataRow
 class InputHandler
 {
 public:
-    InputHandler(TransferQueue& tq, std::string& fileName);
+    InputHandler(TransferQueue& tq);
     ~InputHandler() = default;
 
+    bool init(std::string& fileName);
     void parseInputFile();
 
 private:
     TransferQueue& m_dataPipeLineIn;
-    std::string m_inputFileName;
+    std::ifstream m_inputFile;
 };

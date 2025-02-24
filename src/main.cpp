@@ -6,28 +6,23 @@
 
 int main( int argc, char* argv[] )
 {
-    // Check for --no-window argument
-    bool noWindow = false;
-    for (int i = 1; i < argc; ++i)
-	{
-        if (std::string(argv[i]) == "--no-window")
-		{
-            noWindow = true;
-            break;
-        }
+    std::string inputFileName;
+    if (argc == 2)
+    {
+        inputFileName = std::string(argv[1]);
     }
-
-    // option suppress gui window
-    if (noWindow)
-	{
-		//LogDebug("runing in the supress mode!");
+    else
+    {
+        std::cout << "This program takes only one argument..." << argc << "\n";
+        std::cout << "Usage: > MFilerTool input.csv\n";
+        return 0;
     }
 
     TransferQueue m_transferQueue;
+    InputHandler inputObj(m_transferQueue);
 
-    // TODO: parse cmd input
-    std::string inFile = "input.csv";
-    InputHandler inputObj(m_transferQueue, inFile);
+    if (inputObj.init(inputFileName) == false)
+        return 0;
 
     // input thread - produce market data
     std::thread inputThread(&InputHandler::parseInputFile, &inputObj);

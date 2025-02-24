@@ -2,6 +2,6 @@
 #ifndef PCH_H
 #define PCH_H
 
-#include "dongaLogger.h"
+#include "Logger.h"
 
 #endif // PCH_H

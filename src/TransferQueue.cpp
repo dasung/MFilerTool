@@ -12,7 +12,7 @@ void TransferQueue::popData(MarketData& data)
 {
     std::unique_lock<std::mutex> lock(m_queueMutex);
 
-    // blocking untill queue having some data in the transfer queue
+    // block until queue having some data in the transfer queue
     m_cv.wait(lock, [this]() { return !m_transferQueue.empty(); });
 
     data = m_transferQueue.front();

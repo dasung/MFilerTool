@@ -1,10 +1,27 @@
 
 #include "InputHandler.h"
 
-
-InputHandler::InputHandler(TransferQueue& tq, std::string& fileName) : 
-                            m_dataPipeLineIn(tq), m_inputFileName(fileName)
+InputHandler::InputHandler(TransferQueue& tq) : m_dataPipeLineIn(tq)
 {
+}
+
+bool InputHandler::init(std::string& fileName)
+{
+    m_inputFile.open(fileName);
+
+    if (m_inputFile.is_open() == false)
+    {
+        std::cout << "Error: cannot open the input file - " << fileName << std::endl;
+        return false;
+    }
+
+    if (m_inputFile.fail() == true)
+    {
+        std::cout << "Error: failed to open due to permission or availability of the input file - " << fileName << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -12,15 +29,7 @@ void InputHandler::parseInputFile()
 {
     std::string csvLine;
 
-    std::ifstream file(m_inputFileName);
-
-    if (!file.is_open())
-    {
-        std::cerr << "Error opening file: " << m_inputFileName << std::endl;
-        return;
-    }
-
-    while (std::getline(file, csvLine))
+    while (std::getline(m_inputFile, csvLine))
     {
         std::stringstream ss(csvLine);
         std::string seqNumStr, symbolStr, priceStr, qtyStr;
