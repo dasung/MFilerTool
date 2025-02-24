@@ -11,19 +11,18 @@ void OutputProcessor::populateMarketMap()
 {
     std::cout << "output thread started\n";
 
-    // TODO: loop termination logic
-    int iCount = 0;
     while (true)
     {
-        if (++iCount == 11) break;
-
         MarketData aDataElement;
-        m_dataPipeLineOut.readData(aDataElement);
+        m_dataPipeLineOut.popData(aDataElement);
         
         // debug
         //std::cout << "DataPipeOut - SeqNumber: " << marketData.sequenceNumber << ", Symbol: " << marketData.symbol << ", Price: " << marketData.price << ", Qty: " << marketData.quantity << std::endl;
-       
-        insertDataToMap(aDataElement.symbol, {aDataElement.price, aDataElement.sequenceNumber, aDataElement.quantity});
+        
+        if (aDataElement.id == MarketEventID::STOPPER_EVENT)
+            break;
+        
+        insertDataToMap(aDataElement.symbol, {aDataElement.price, aDataElement.sequenceNumber, aDataElement.quantity});   
     }
 
     // debug

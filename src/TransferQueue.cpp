@@ -2,28 +2,32 @@
 
 void TransferQueue::pushData(const MarketData& data)
 {
-    std::lock_guard<std::mutex> lock(queue_mutex);
-    transferQueue.push(data);
-    cv.notify_one();
+    std::lock_guard<std::mutex> lock(m_queueMutex);
+    m_transferQueue.push(data);
+    m_cv.notify_one();
 }
 
 
-void TransferQueue::readData(MarketData& data)
+void TransferQueue::popData(MarketData& data)
 {
-    std::unique_lock<std::mutex> lock(queue_mutex);
-    if (cv.wait_for(lock, std::chrono::seconds(5), [this]() { return !transferQueue.empty(); }))
-    {
-        data = transferQueue.front();
-        transferQueue.pop();
-    }
-    else {
-        std::cout << "popEvent timed out (queue empty)" << std::endl;
-    }
+    std::unique_lock<std::mutex> lock(m_queueMutex);
+
+    // blocking untill queue having some data in the transfer queue
+    m_cv.wait(lock, [this]() { return !m_transferQueue.empty(); });
+
+    data = m_transferQueue.front();
+    m_transferQueue.pop();
 }
 
 
-void TransferQueue::produceMarketData(std::string symbol, double price, int seqNumber, int quantity)
+void TransferQueue::sendMarketDataEvent(std::string symbol, double price, int seqNumber, int quantity)
 {
-    MarketData newData{ symbol, price, seqNumber, quantity};
-    pushData(newData);
+    MarketData newDataEntity{ MARKET_DATA_EVENT, symbol, price, seqNumber, quantity};
+    pushData(newDataEntity);
+}
+
+void TransferQueue::sendStopperEvent()
+{
+    MarketData stopperDataEntity{ STOPPER_EVENT, "", 0, -1, -1};
+    pushData(stopperDataEntity);
 }

@@ -28,3 +28,7 @@ MFilerTool
 ## Test Articats
     1. input.csv -  original csv provided
 
+
+## Low latency improvements
+    * avoid strings and use char pre-allocated buffers
+    * use boost lock-free queues - I couldn't able to install boost in my env.

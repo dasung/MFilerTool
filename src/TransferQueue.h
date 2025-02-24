@@ -4,8 +4,16 @@
 #include <queue>
 #include <condition_variable>
 
+
+enum MarketEventID : int
+{
+    MARKET_DATA_EVENT,
+    STOPPER_EVENT
+};
+
 struct MarketData
 {
+    MarketEventID id;
     std::string symbol;
     double price;
     int sequenceNumber;
@@ -15,13 +23,15 @@ struct MarketData
 class TransferQueue
 {
 public:
-    std::queue<MarketData> transferQueue;
-    void readData(MarketData& data);
-    void produceMarketData(std::string symbol, double price, int seqNumber, int quantity);
+    void popData(MarketData& data);
+    void sendMarketDataEvent(std::string symbol, double price, int seqNumber, int quantity);
+    void sendStopperEvent();
 
 private:
-    std::mutex queue_mutex;
-    std::condition_variable cv;
+    std::mutex m_queueMutex;
+    std::condition_variable m_cv;
+
+    std::queue<MarketData> m_transferQueue;
 
     void pushData(const MarketData& event);
 };
