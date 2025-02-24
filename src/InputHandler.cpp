@@ -3,7 +3,7 @@
 
 
 InputHandler::InputHandler(TransferQueue& tq, std::string& fileName) : 
-                            m_dataPipe(tq), m_inputFileName(fileName)
+                            m_dataPipeLineIn(tq), m_inputFileName(fileName)
 {
 }
 
@@ -53,10 +53,14 @@ void InputHandler::parseInputFile()
                 continue;
             }
 
-            std::cout << "SeqNumber: " << row.sequenceNumber << ", Symbol: " << row.symbol << ", Price: " << row.price << ", Qty: " << row.quntity << std::endl;
+            // debug
+            // std::cout << "DataPipeIn - SeqNumber: " << row.sequenceNumber << ", Symbol: " << row.symbol << ", Price: " << row.price << ", Qty: " << row.quntity << std::endl;
+
+            m_dataPipeLineIn.produceMarketData(row.symbol, row.sequenceNumber, row.price, row.quntity);
         }
     }
 }
+
 
 std::vector<DataRow> InputHandler::readCSV(const std::string& filename)
 {

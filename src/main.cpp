@@ -2,10 +2,11 @@
 #include <iostream>
 
 #include "InputHandler.h"
-
+#include "OutputProcessor.h"
 
 int main( int argc, char* argv[] )
 {
+
     // Check for --no-window argument
     bool noWindow = false;
     for (int i = 1; i < argc; ++i)
@@ -30,10 +31,15 @@ int main( int argc, char* argv[] )
     std::string inFile = "input.csv";
     InputHandler inputObj(m_transferQueue, inFile);
 
+    // input thread - produce market data
     std::thread inputThread(&InputHandler::parseInputFile, &inputObj);
 
-    inputThread.join();
+    // processing thread - prepare output
+    OutputProcessor outputObj(m_transferQueue);
+    std::thread processingThread(&OutputProcessor::populateMarketMap, &outputObj);
 
+    inputThread.join();
+    processingThread.join();
 
     /*std::vector<DataRow> data = m_input.readCSV("input.csv");
 

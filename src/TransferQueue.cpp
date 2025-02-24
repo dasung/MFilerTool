@@ -22,3 +22,10 @@ MarketData TransferQueue::popData()
         return MarketData(); // Or handle timeout appropriately
     }
 }
+
+
+void TransferQueue::produceMarketData(std::string symbol, double price, int seqNumber, int quantity)
+{
+    MarketData newData{ symbol, price, seqNumber, quantity};
+    pushData(newData);
+}

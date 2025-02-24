@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -25,8 +27,6 @@ public:
     std::vector<DataRow> readCSV(const std::string& filename);
 
 private:
-    void produceMarketData() {};
-
-    TransferQueue& m_dataPipe;
+    TransferQueue& m_dataPipeLineIn;
     std::string m_inputFileName;
 };
