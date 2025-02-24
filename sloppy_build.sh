@@ -3,22 +3,20 @@
 # Create the build directory if it doesn't exist
 mkdir -p build
 
-# Navigate into the build directory
-cd build
 
-# Run CMake to configure the project
-echo "cmaking MFilerTool..."
-cmake ..
 
-# Build the project using Ninja
+# clean the project
+echo "cleaning MFilerTool..."
+make clean
+
+# Build the project
 echo "making MFilerTool..."
-ninja
+make
 
-cd ../bin
+cd bin
 # Run the executable with --no-window argument
 echo "runing MFilerTool in silent mode..."
-./MFilerTool.exe --no-window
-#./MFilerTool.exe
+./MFilerTool --no-window
 
 cd ..
 echo "done!"
