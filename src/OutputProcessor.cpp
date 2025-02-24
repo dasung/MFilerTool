@@ -9,10 +9,52 @@ void OutputProcessor::populateMarketMap()
 {
     std::cout << "output thread started\n";
 
+    // TODO: loop termination logic
+    int iCount = 0;
     while (true)
     {
+        if (++iCount == 11) break;
+
         auto marketData = m_dataPipeLineOut.popData();
-        std::cout << "DataPipeOut - SeqNumber: " << marketData.sequenceNumber << ", Symbol: " << marketData.symbol << ", Price: " << marketData.price << ", Qty: " << marketData.quantity << std::endl;
+        
+        // debug
+        //std::cout << "DataPipeOut - SeqNumber: " << marketData.sequenceNumber << ", Symbol: " << marketData.symbol << ", Price: " << marketData.price << ", Qty: " << marketData.quantity << std::endl;
+       
+        insertDataToMap(marketData.symbol, {marketData.price, marketData.sequenceNumber, marketData.quantity});
     }
-    
+
+    debugMarketDataMap();
+}
+
+
+void OutputProcessor::insertDataToMap(std::string& symbol, const MarketDataKey& key)
+{
+    auto it = m_MarketDataMap.find(symbol);
+    if (it != m_MarketDataMap.end())
+    {
+        auto result = it->second.insert(key); // add to existing set
+        if (result.second == false)
+        {
+            std::cout << "unexpected duplicated key was found.\n";
+        }
+    }
+    else
+    {
+        m_MarketDataMap[symbol] = {key};
+    }    
+}
+
+
+void OutputProcessor::debugMarketDataMap()
+{
+    for (const auto& [symbol, mData] : m_MarketDataMap)
+    {
+        std::cout << "MarketData for " << symbol << ":\n";
+        for (const auto& key : mData) {
+            std::cout << "  Price: " << key.price   // TODO: formatting floating 4.6 -> 4.60
+                      << ", Qty: " << key.qty
+                      << ", SeqNum: " << key.seqNum << '\n';
+        }
+        std::cout << '\n';
+    }
 }

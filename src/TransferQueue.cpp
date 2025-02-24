@@ -1,9 +1,9 @@
 #include "TransferQueue.h"
 
-void TransferQueue::pushData(const MarketData& event)
+void TransferQueue::pushData(const MarketData& data)
 {
     std::lock_guard<std::mutex> lock(queue_mutex);
-    transferQueue.push(event);
+    transferQueue.push(data);
     cv.notify_one();
 }
 

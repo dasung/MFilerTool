@@ -54,9 +54,9 @@ void InputHandler::parseInputFile()
             }
 
             // debug
-            // std::cout << "DataPipeIn - SeqNumber: " << row.sequenceNumber << ", Symbol: " << row.symbol << ", Price: " << row.price << ", Qty: " << row.quntity << std::endl;
+            //std::cout << "DataPipeIn - SeqNumber: " << row.sequenceNumber << ", Symbol: " << row.symbol << ", Price: " << row.price << ", Qty: " << row.quntity << std::endl;
 
-            m_dataPipeLineIn.produceMarketData(row.symbol, row.sequenceNumber, row.price, row.quntity);
+            m_dataPipeLineIn.produceMarketData(row.symbol, row.price, row.sequenceNumber, row.quntity);
         }
     }
 }
