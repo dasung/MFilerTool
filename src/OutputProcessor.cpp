@@ -52,6 +52,7 @@ void OutputProcessor::generateOutput()
 {
     for (const auto& [symbol, mDataSet] : m_MarketDataMap)
     {
+        //TODO: handle the path
         std::string fileName = symbol + ".csv";
         std::ofstream outFile(fileName);
         if (!outFile)
