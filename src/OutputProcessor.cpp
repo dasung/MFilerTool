@@ -1,5 +1,7 @@
-#include "OutputProcessor.h"
+#include <cstdio>
+#include <cstdarg>
 
+#include "OutputProcessor.h"
 
 OutputProcessor::OutputProcessor(TransferQueue& tq) : m_dataPipeLineOut(tq)
 {
@@ -23,7 +25,9 @@ void OutputProcessor::populateMarketMap()
         insertDataToMap(marketData.symbol, {marketData.price, marketData.sequenceNumber, marketData.quantity});
     }
 
-    debugMarketDataMap();
+    // debug
+    //debugMarketDataMap();
+    generateOutput();
 }
 
 
@@ -44,6 +48,34 @@ void OutputProcessor::insertDataToMap(std::string& symbol, const MarketDataKey& 
     }    
 }
 
+void OutputProcessor::generateOutput()
+{
+    for (const auto& [symbol, mDataSet] : m_MarketDataMap)
+    {
+        std::string fileName = symbol + ".csv";
+        std::ofstream outFile(fileName);
+        if (!outFile)
+        {
+            std::cerr << "Error: Could not open file for writing!\n";
+            return;
+        }
+
+        size_t rowCount = 0;
+        size_t totalRows = mDataSet.size();
+
+        for (const auto& key : mDataSet)
+        {
+            outFile << key.price << ",";
+            outFile << key.qty << ",";
+            outFile << key.seqNum;
+
+            if (++rowCount < totalRows)
+                outFile << "\n";
+        }
+
+        outFile.close(); // Close the file
+    }
+}
 
 void OutputProcessor::debugMarketDataMap()
 {
@@ -58,3 +90,4 @@ void OutputProcessor::debugMarketDataMap()
         std::cout << '\n';
     }
 }
+

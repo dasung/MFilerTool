@@ -1,10 +1,13 @@
 #pragma once
 
 #include <iostream>
+#include <fstream> 
 #include <set>
 #include <map>
 
 #include "TransferQueue.h"
+
+
 
 struct MarketDataKey
 {
@@ -37,4 +40,7 @@ private:
 
     void insertDataToMap(std::string& symbol, const MarketDataKey& key);
     void debugMarketDataMap();
+
+    // file write functions
+    void generateOutput();
 };
