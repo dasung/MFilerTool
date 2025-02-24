@@ -23,7 +23,7 @@ MFilerTool
 ## How to setup
 
     * just execute sloppy_build.sh or manually make.
-    usage -> ./sloppy_build.sh
+    usage -> ./sloppy_build.sh <filename.csv>
 
 ## Tested Scenario Description
     1. test/input.csv - original csv provided and sorting

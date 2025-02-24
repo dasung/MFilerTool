@@ -10,8 +10,6 @@ OutputProcessor::OutputProcessor(TransferQueue& tq) : m_dataPipeLineOut(tq)
 
 void OutputProcessor::populateMarketMap()
 {
-    std::cout << "output thread started\n";
-
     while (true)
     {
         MarketData aDataElement;
@@ -41,16 +39,20 @@ void OutputProcessor::insertDataToMap(std::string& symbol, const MarketDataKey& 
         if (result.second == false)
         {
             std::cout << "unexpected duplicated key was found.\n";
+            return;
         }
     }
     else
     {
         m_MarketDataMap[symbol] = {key};
-    }    
+    }
+
+    ++m_totalRows;
 }
 
 void OutputProcessor::generateOutput()
 {
+    std::cout << "Total Rows: " << m_totalRows << std::endl;
     for (const auto& [symbol, mDataSet] : m_MarketDataMap)
     {
         //TODO: handle the path
@@ -62,8 +64,8 @@ void OutputProcessor::generateOutput()
             return;
         }
 
-        size_t rowCount = 0;
-        size_t totalRows = mDataSet.size();
+        size_t count = 0;
+        size_t dataSetSize = mDataSet.size();
 
         outFile << std::fixed << std::setprecision(2);
 
@@ -73,9 +75,11 @@ void OutputProcessor::generateOutput()
             outFile << key.qty << ",";
             outFile << key.seqNum;
 
-            if (++rowCount < totalRows)
+            if (++count < dataSetSize)
                 outFile << "\n";
         }
+
+        std::cout << symbol << " Rows: " << count << std::endl;
 
         outFile.close();
     }

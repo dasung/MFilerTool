@@ -35,6 +35,8 @@ public:
 
     void populateMarketMap();
 private:
+    
+    size_t m_totalRows = 0;
     TransferQueue& m_dataPipeLineOut;
     std::map<std::string, std::set<MarketDataKey, SortingOperator>> m_MarketDataMap;
 

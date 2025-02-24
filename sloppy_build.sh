@@ -14,9 +14,9 @@ echo "making MFilerTool..."
 make
 
 cd bin
-# Run the executable with --no-window argument
-echo "runing MFilerTool in silent mode..."
-./MFilerTool --no-window
+# Run the executable with argument
+echo "runing MFilerTool..."
+./MFilerTool input.csv
 
 cd ..
 echo "done!"
