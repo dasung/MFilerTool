@@ -25,8 +25,11 @@ MFilerTool
     * just execute sloppy_build.sh or manually make.
     usage -> ./sloppy_build.sh
 
-## Test Articats
-    1. input.csv -  original csv provided
+## Tested Scenario Description
+    1. test/input.csv - original csv provided and sorting
+    2. test/price.csv - price point validation {61.3823232, -32.63, .52}
+                   symbol "TRI" same price point sorting
+    3. 
 
 
 ## Low latency improvements
