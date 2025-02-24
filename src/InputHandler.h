@@ -3,9 +3,9 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <iomanip> // For std::hex and std::dec
-#include <boost/lexical_cast.hpp>
-#include <filesystem>
+#include <thread>
+
+#include "TransferQueue.h"
 
 struct DataRow
 {
@@ -18,10 +18,15 @@ struct DataRow
 class InputHandler
 {
 public:
-    InputHandler() = default;
+    InputHandler(TransferQueue& tq, std::string& fileName);
     ~InputHandler() = default;
-    void readCSV(const std::string& filename);
+
+    void parseInputFile();
+    std::vector<DataRow> readCSV(const std::string& filename);
 
 private:
+    void produceMarketData() {};
 
+    TransferQueue& m_dataPipe;
+    std::string m_inputFileName;
 };

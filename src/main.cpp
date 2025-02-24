@@ -23,9 +23,29 @@ int main( int argc, char* argv[] )
 		//LogDebug("runing in the supress mode!");
     }
 
-    std::cout << "hello world\n";
-    InputHandler input;
-    input.readCSV("input.csv");
+    TransferQueue m_transferQueue;
+
+    std::cout << "hello world...\n";
+    // TODO: parse cmd input
+    std::string inFile = "input.csv";
+    InputHandler inputObj(m_transferQueue, inFile);
+
+    std::thread inputThread(&InputHandler::parseInputFile, &inputObj);
+
+    inputThread.join();
+
+
+    /*std::vector<DataRow> data = m_input.readCSV("input.csv");
+
+    for (const auto& row : data)
+    {
+        std::cout << "SeqNumber: " << row.sequenceNumber
+                  << ", Symbol: " << row.symbol
+                  << ", Price: " << row.price
+                  << ", Qty: " << row.quntity << std::endl;
+    }*/
+
+
 
     //fclose(stdout);
 	return 0;
