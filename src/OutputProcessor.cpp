@@ -55,12 +55,11 @@ void OutputProcessor::generateOutput()
     std::cout << "Total Rows: " << m_totalRows << std::endl;
     for (const auto& [symbol, mDataSet] : m_MarketDataMap)
     {
-        //TODO: handle the path
         std::string fileName = symbol + ".csv";
         std::ofstream outFile(fileName);
         if (!outFile)
         {
-            std::cerr << "Error: Could not open file for writing!\n";
+            std::cerr << "Error: Could not open file for writing - " << fileName << "\n";
             return;
         }
 
@@ -91,7 +90,7 @@ void OutputProcessor::debugMarketDataMap()
     {
         std::cout << "MarketData for " << symbol << ":\n";
         for (const auto& key : mData) {
-            std::cout << "  Price: " << key.price   // TODO: formatting floating 4.6 -> 4.60
+            std::cout << "  Price: " << key.price
                       << ", Qty: " << key.qty
                       << ", SeqNum: " << key.seqNum << '\n';
         }

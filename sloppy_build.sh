@@ -16,7 +16,7 @@ make
 cd bin
 # Run the executable with argument
 echo "runing MFilerTool..."
-./MFilerTool input.csv
+./MFilerTool ../test/bad.csv
 
 cd ..
 echo "done!"

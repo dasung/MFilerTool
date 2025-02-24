@@ -34,7 +34,5 @@ int main( int argc, char* argv[] )
     inputThread.join();
     processingThread.join();
 
-
-    //fclose(stdout);
 	return 0;
 }

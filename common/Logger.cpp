@@ -2,9 +2,8 @@
 #include <cstdio>
 #include <cstdarg>
 
-// definition for static memebrs
-std::unique_ptr<Logger> Logger::logger_ = nullptr;   // initialize logger to allocates memory
-std::mutex Logger::mutex_;                                     // initialize mutex to allocates memory
+std::unique_ptr<Logger> Logger::logger_ = nullptr;
+std::mutex Logger::mutex_;
 
 
 void _dongaLogDebug(const char *zFormat, ...)
@@ -51,6 +50,4 @@ Logger* Logger::getInstance()
 	}
 
 	return logger_.get();
-}                           // automatically unlocks the mutex using RAII principle
-
-/* RAII is a programming idiom where resources are acquired during the creation (construction) of an object and released when the object is destroyed. */
+}

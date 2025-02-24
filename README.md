@@ -2,6 +2,8 @@
 
 MFilerTool
 ├── bin
+│   ├── <symbol>.csv -> all output csv created here
+│   └── MFilerTool executable
 ├── build
 ├── common
 │   ├── <TODO>: Logger.h - for developer debugging perposes
@@ -29,9 +31,17 @@ MFilerTool
     1. test/input.csv - original csv provided and sorting
     2. test/price.csv - price point validation {61.3823232, -32.63, .52}
                    symbol "TRI" same price point sorting
-    3. 
+    3. data input validation
+        - file unavailable
+        - failed due to permission
+        - diffrent file path : ./MFilerTool ../test/input.csv
+        - same folder file path : ./MFilerTool input.csv
+    4. test/bad.csv
+        - Japanese character in symbol -> program should not be crashed.
+        - currupted sequence number -> 
 
 
 ## Low latency improvements
     * avoid strings and use char pre-allocated buffers
     * use boost lock-free queues - I couldn't able to install boost in my env.
+    * quntity is positive 32 integer only.
