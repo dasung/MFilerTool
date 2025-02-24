@@ -16,11 +16,12 @@ class TransferQueue
 {
 public:
     std::queue<MarketData> transferQueue;
-    void pushData(const MarketData& event);
-    MarketData popData();
+    void readData(MarketData& data);
     void produceMarketData(std::string symbol, double price, int seqNumber, int quantity);
 
 private:
     std::mutex queue_mutex;
     std::condition_variable cv;
+
+    void pushData(const MarketData& event);
 };

@@ -24,7 +24,6 @@ public:
     ~InputHandler() = default;
 
     void parseInputFile();
-    std::vector<DataRow> readCSV(const std::string& filename);
 
 private:
     TransferQueue& m_dataPipeLineIn;

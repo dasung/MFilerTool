@@ -41,17 +41,6 @@ int main( int argc, char* argv[] )
     inputThread.join();
     processingThread.join();
 
-    /*std::vector<DataRow> data = m_input.readCSV("input.csv");
-
-    for (const auto& row : data)
-    {
-        std::cout << "SeqNumber: " << row.sequenceNumber
-                  << ", Symbol: " << row.symbol
-                  << ", Price: " << row.price
-                  << ", Qty: " << row.quntity << std::endl;
-    }*/
-
-
 
     //fclose(stdout);
 	return 0;

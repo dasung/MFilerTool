@@ -12,6 +12,10 @@ MFilerTool
 │   ├── TransferQueue.h
 │   ├── <*h, *.cpp>
 │   └── main.cpp
+|
+├── test
+│   └── <contains test artifacts>
+|
 ├── Makefile
 ├── README.md
 └── sloppy_build.sh -> just compile & run application
@@ -21,5 +25,6 @@ MFilerTool
     * just execute sloppy_build.sh or manually make.
     usage -> ./sloppy_build.sh
 
-## How to run
+## Test Articats
+    1. input.csv -  original csv provided
 

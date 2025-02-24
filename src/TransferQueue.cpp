@@ -8,18 +8,16 @@ void TransferQueue::pushData(const MarketData& data)
 }
 
 
-MarketData TransferQueue::popData()
+void TransferQueue::readData(MarketData& data)
 {
     std::unique_lock<std::mutex> lock(queue_mutex);
     if (cv.wait_for(lock, std::chrono::seconds(5), [this]() { return !transferQueue.empty(); }))
     {
-        MarketData data = transferQueue.front();
+        data = transferQueue.front();
         transferQueue.pop();
-        return data;
     }
     else {
         std::cout << "popEvent timed out (queue empty)" << std::endl;
-        return MarketData(); // Or handle timeout appropriately
     }
 }
 

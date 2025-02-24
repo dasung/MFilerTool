@@ -17,12 +17,13 @@ void OutputProcessor::populateMarketMap()
     {
         if (++iCount == 11) break;
 
-        auto marketData = m_dataPipeLineOut.popData();
+        MarketData aDataElement;
+        m_dataPipeLineOut.readData(aDataElement);
         
         // debug
         //std::cout << "DataPipeOut - SeqNumber: " << marketData.sequenceNumber << ", Symbol: " << marketData.symbol << ", Price: " << marketData.price << ", Qty: " << marketData.quantity << std::endl;
        
-        insertDataToMap(marketData.symbol, {marketData.price, marketData.sequenceNumber, marketData.quantity});
+        insertDataToMap(aDataElement.symbol, {aDataElement.price, aDataElement.sequenceNumber, aDataElement.quantity});
     }
 
     // debug
