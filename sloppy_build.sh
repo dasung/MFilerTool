@@ -7,18 +7,18 @@ mkdir -p build
 cd build
 
 # Run CMake to configure the project
-echo "cmaking Donga..."
+echo "cmaking MFilerTool..."
 cmake ..
 
 # Build the project using Ninja
-echo "making Donga..."
+echo "making MFilerTool..."
 ninja
 
 cd ../bin
 # Run the executable with --no-window argument
-echo "runing Donga in silent mode..."
-./Donga.exe --no-window
-#./Donga.exe
+echo "runing MFilerTool in silent mode..."
+./MFilerTool.exe --no-window
+#./MFilerTool.exe
 
 cd ..
 echo "done!"

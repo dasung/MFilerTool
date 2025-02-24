@@ -2,10 +2,10 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project name and version
-project(Donga VERSION 1.0)
+project(MFilerTool VERSION 1.0)
 
 # Specify the C++ standard
-set(CMAKE_CXX_STANDARD 23)              # Use C++23
+set(CMAKE_CXX_STANDARD 17)              # Use C++2173
 set(CMAKE_CXX_STANDARD_REQUIRED True)   # Enforce the standard
 
 # Specify output directory for executables
