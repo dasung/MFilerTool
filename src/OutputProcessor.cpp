@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdarg>
+#include <iomanip>
 
 #include "OutputProcessor.h"
 
@@ -64,9 +65,11 @@ void OutputProcessor::generateOutput()
         size_t rowCount = 0;
         size_t totalRows = mDataSet.size();
 
+        outFile << std::fixed << std::setprecision(2);
+
         for (const auto& key : mDataSet)
         {
-            outFile << key.price << ",";
+            outFile <<  key.price << ",";
             outFile << key.qty << ",";
             outFile << key.seqNum;
 
@@ -74,7 +77,7 @@ void OutputProcessor::generateOutput()
                 outFile << "\n";
         }
 
-        outFile.close(); // Close the file
+        outFile.close();
     }
 }
 

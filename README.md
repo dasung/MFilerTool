@@ -4,7 +4,7 @@ MFilerTool
 ├── bin
 ├── build
 ├── common
-│   ├── <*h, *.cpp>
+│   ├── <TODO>: Logger.h - for developer debugging perposes
 │   ├── <TODO: utils and includes>
 │   └── <*h, *.cpp>
 |
