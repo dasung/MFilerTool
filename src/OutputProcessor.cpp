@@ -10,6 +10,7 @@ OutputProcessor::OutputProcessor(TransferQueue& tq) : m_dataPipeLineOut(tq)
 
 void OutputProcessor::populateMarketMap()
 {
+    LogDebug("%s - processing thread started.", __PRETTY_FUNCTION__);
     while (true)
     {
         MarketData aDataElement;

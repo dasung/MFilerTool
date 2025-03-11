@@ -7,6 +7,7 @@ InputHandler::InputHandler(TransferQueue& tq) : m_dataPipeLineIn(tq)
 
 bool InputHandler::init(std::string& fileName)
 {
+    LogDebug(__PRETTY_FUNCTION__);
     m_inputFile.open(fileName);
 
     if (m_inputFile.is_open() == false)
@@ -27,6 +28,8 @@ bool InputHandler::init(std::string& fileName)
 
 void InputHandler::parseInputFile()
 {
+    LogDebug("%s - input thread started", __PRETTY_FUNCTION__);
+    
     std::string csvLine;
 
     while (std::getline(m_inputFile, csvLine))

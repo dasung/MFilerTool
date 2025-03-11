@@ -6,7 +6,7 @@ std::unique_ptr<Logger> Logger::logger_ = nullptr;
 std::mutex Logger::mutex_;
 
 
-void _dongaLogDebug(const char *zFormat, ...)
+void _logDebug(const char *zFormat, ...)
 {
     char zDesc[1000];
 

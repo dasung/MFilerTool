@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <iostream>
-
 #include "InputHandler.h"
 #include "OutputProcessor.h"
 
 int main( int argc, char* argv[] )
 {
+    LogDebug(__PRETTY_FUNCTION__);
     std::string inputFileName;
     if (argc == 2)
     {
