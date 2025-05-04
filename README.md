@@ -1,28 +1,28 @@
 # Project MFilerTool
 
-MFilerTool
-├── bin
+```
+MFilerTool/
+├── bin/
 │   ├── <symbol>.csv -> all output csv created here
 │   └── MFilerTool executable
-├── build
-├── common
-│   ├── <TODO>: Logger.h - for developer debugging perposes
-│   ├── <TODO: utils and includes>
-│   └── <*h, *.cpp>
-|
-├── src
+├── build/
+├── common/
+│   ├── Logger.h - for developer debugging purposes
+│   ├── <utils and includes>
+│   └── <*.h, *.cpp>
+├── src/
 │   ├── TransferQueue.h
-│   ├── <*h, *.cpp>
+│   ├── <*.h, *.cpp>
 │   └── main.cpp
-|
-├── test
+├── test/
 │   └── <contains test artifacts>
-├── docs
+├── docs/
 │   └── design.pdf -> info about thread structure
 |
 ├── Makefile
 ├── README.md
 └── sloppy_build.sh -> just compile & run application
+```
 
 ## How to setup
 
@@ -36,14 +36,13 @@ MFilerTool
     3. data input validation
         - file unavailable
         - failed due to permission
-        - diffrent file path : ./MFilerTool ../test/input.csv
+        - different file path : ./MFilerTool ../test/input.csv
         - same folder file path : ./MFilerTool input.csv
     4. test/bad.csv
         - Japanese character in symbol -> program should not be crashed.
-        - currupted sequence number -> 
-
+        - corrupted sequence number -> 
 
 ## Low latency improvements
     * avoid strings and use char pre-allocated buffers
     * use boost lock-free queues - I couldn't able to install boost in my env.
-    * quntity is positive 32 integer only.
+    * quantity is positive 32 integer only.
