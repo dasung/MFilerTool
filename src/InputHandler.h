@@ -7,7 +7,7 @@
 #include <vector>
 #include <thread>
 
-#include "TransferQueue.h"
+#include "GenericTransferQueue.h"
 
 struct DataRow
 {
@@ -20,13 +20,13 @@ struct DataRow
 class InputHandler
 {
 public:
-    InputHandler(TransferQueue& tq);
+    InputHandler(IDataProducer& tq);
     ~InputHandler() = default;
 
     bool init(std::string& fileName);
     void parseInputFile();
 
 private:
-    TransferQueue& m_dataPipeLineIn;
+    IDataProducer& m_dataPipeLineIn;
     std::ifstream m_inputFile;
 };

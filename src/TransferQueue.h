@@ -4,28 +4,16 @@
 #include <queue>
 #include <condition_variable>
 
+#include "GenericTransferQueue.h"
 
-enum MarketEventID : int
-{
-    MARKET_DATA_EVENT,
-    STOPPER_EVENT
-};
 
-struct MarketData
-{
-    MarketEventID id;
-    std::string symbol;
-    double price;
-    int sequenceNumber;
-    int quantity;
-};
 
-class TransferQueue
+class TransferQueue  : public IDataProducer, public IDataConsumer 
 {
 public:
-    void popData(MarketData& data);
-    void sendMarketDataEvent(std::string symbol, double price, int seqNumber, int quantity);
-    void sendStopperEvent();
+    void popData(MarketData& data) override;
+    void sendMarketDataEvent(std::string symbol, double price, int seqNumber, int quantity) override;
+    void sendStopperEvent() override;
 
 private:
     std::mutex m_queueMutex;
