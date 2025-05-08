@@ -3,6 +3,9 @@
 #include "InputHandler.h"
 #include "OutputProcessor.h"
 
+#include "TransferQueue.h"
+#include "PriorityTransferQueue.h"
+
 int main( int argc, char* argv[] )
 {
     LogDebug(__PRETTY_FUNCTION__);
@@ -19,6 +22,12 @@ int main( int argc, char* argv[] )
     }
 
     TransferQueue m_transferQueue;
+
+    // processing thread - prepare output
+    OutputProcessor outputObj(m_transferQueue);
+    std::thread processingThread(&OutputProcessor::populateMarketMap, &outputObj);
+    
+
     InputHandler inputObj(m_transferQueue);
 
     if (inputObj.init(inputFileName) == false)
@@ -26,10 +35,6 @@ int main( int argc, char* argv[] )
 
     // input thread - produce market data
     std::thread inputThread(&InputHandler::parseInputFile, &inputObj);
-
-    // processing thread - prepare output
-    OutputProcessor outputObj(m_transferQueue);
-    std::thread processingThread(&OutputProcessor::populateMarketMap, &outputObj);
 
     inputThread.join();
     processingThread.join();

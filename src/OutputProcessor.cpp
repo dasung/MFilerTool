@@ -4,7 +4,7 @@
 
 #include "OutputProcessor.h"
 
-OutputProcessor::OutputProcessor(TransferQueue& tq) : m_dataPipeLineOut(tq)
+OutputProcessor::OutputProcessor(IDataConsumer& tq) : m_dataPipeLineOut(tq)
 {
 }
 

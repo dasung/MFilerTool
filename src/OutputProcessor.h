@@ -1,11 +1,11 @@
 #pragma once
 
 #include <iostream>
-#include <fstream> 
+#include <fstream>
 #include <set>
 #include <map>
 
-#include "TransferQueue.h"
+#include "GenericTransferQueue.h"
 
 
 
@@ -29,7 +29,7 @@ struct SortingOperator
 class OutputProcessor
 {
 public:
-    OutputProcessor(TransferQueue& tq);
+    OutputProcessor(IDataConsumer& tq);
 
     ~OutputProcessor() = default;
 
@@ -37,7 +37,7 @@ public:
 private:
     
     size_t m_totalRows = 0;
-    TransferQueue& m_dataPipeLineOut;
+    IDataConsumer& m_dataPipeLineOut;
     std::map<std::string, std::set<MarketDataKey, SortingOperator>> m_MarketDataMap;
 
     void insertDataToMap(std::string& symbol, const MarketDataKey& key);

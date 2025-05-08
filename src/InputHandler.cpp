@@ -1,7 +1,7 @@
 
 #include "InputHandler.h"
 
-InputHandler::InputHandler(TransferQueue& tq) : m_dataPipeLineIn(tq)
+InputHandler::InputHandler(IDataProducer& tq) : m_dataPipeLineIn(tq)
 {
 }
 
@@ -42,7 +42,6 @@ void InputHandler::parseInputFile()
             std::getline(ss, priceStr, ',') &&
             std::getline(ss, qtyStr, ','))
         {
-
             DataRow row;
             std::stringstream hexStream(seqNumStr);
             hexStream >> std::hex >> row.sequenceNumber; // Convert from hex
@@ -67,6 +66,7 @@ void InputHandler::parseInputFile()
 
             // debug
             //std::cout << "DataPipeIn - SeqNumber: " << row.sequenceNumber << ", Symbol: " << row.symbol << ", Price: " << row.price << ", Qty: " << row.quntity << std::endl;
+            //LogDebug( "DataPipeIn - SeqNumber: %d, Symbol: %s, Price: %f, Qty: %d", row.sequenceNumber, row.symbol.c_str(), row.price, row.quntity);
 
             m_dataPipeLineIn.sendMarketDataEvent(row.symbol, row.price, row.sequenceNumber, row.quntity);
         }
