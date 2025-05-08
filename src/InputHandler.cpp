@@ -72,5 +72,5 @@ void InputHandler::parseInputFile()
         }
     }
 
-    m_dataPipeLineIn.sendStopperEvent();
+    m_dataPipeLineIn.enqueueStopperEvent();
 }
