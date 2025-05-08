@@ -26,7 +26,7 @@ void TransferQueue::sendMarketDataEvent(std::string symbol, double price, int se
     pushData(newDataEntity);
 }
 
-void TransferQueue::sendStopperEvent()
+void TransferQueue::enqueueStopperEvent()
 {
     MarketData stopperDataEntity{ STOPPER_EVENT, "", 0, -1, -1};
     pushData(stopperDataEntity);
